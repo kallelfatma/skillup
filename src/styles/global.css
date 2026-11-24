@@ -1,0 +1,46 @@
+/* ===== Styles globaux SkillUp (modules 3, 4, 5) =====
+   Bootstrap fournit déjà les boutons (.btn), la grille et la Navbar.
+   Ici on ajoute seulement ce que Bootstrap n'a pas, avec des noms
+   qui ne rentrent pas en conflit avec ses classes (.card, .btn, .progress...). */
+
+:root {
+  /* Mêmes couleurs que Bootstrap pour rester cohérent avec la Navbar de Lina */
+  --primary: #0d6efd;
+  --primary-light: #cfe2ff;
+  --success: #198754;
+  --danger: #dc3545;
+  --surface: #ffffff;
+  --text: #212529;
+  --muted: #6c757d;
+  --border: #dee2e6;
+}
+
+/* En-tête de page (titre + sous-titre) */
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Panneau blanc arrondi (équivalent d'une carte, sans conflit avec .card de Bootstrap) */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 600px) {
+  .panel {
+    padding: 1.1rem;
+  }
+}
