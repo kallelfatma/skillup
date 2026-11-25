@@ -29,7 +29,7 @@ function App() {
     <>
       <Navbar nbFavoris={favoris.length} />
 
-      <main className="container py-4">
+      <main className="container py-4 su-page">
         <Routes>
           <Route path="/" element={<Home nbFavoris={favoris.length} />} />
           <Route

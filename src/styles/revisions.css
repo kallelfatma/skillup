@@ -9,8 +9,8 @@
 
 /* --- Formulaire --- */
 .task-form h2 {
-  margin: 0 0 1rem;
-  font-size: 1.2rem;
+  margin: 0 0 1.25rem;
+  font-size: var(--step-1);
 }
 
 .field {
@@ -27,30 +27,33 @@
 }
 
 .field label {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
 }
 
+/* Champs en "ligne d'écriture" : bordure du bas plus marquée */
 .field input,
 .field textarea,
 .field select {
   padding: 0.6rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: 1px solid var(--rule);
+  border-bottom: 2px solid var(--rule);
+  border-radius: 4px;
   font: inherit;
-  background: var(--surface);
+  background: var(--sheet);
   color: var(--text);
 }
 
 .field input:focus,
 .field textarea:focus,
 .field select:focus {
-  outline: 2px solid var(--primary-light);
-  border-color: var(--primary);
+  outline: none;
+  border-bottom-color: var(--ink);
+  background: var(--ink-tint);
 }
 
 .field .invalid {
-  border-color: var(--danger);
+  border-bottom-color: var(--margin);
 }
 
 .error {
@@ -59,7 +62,7 @@
   margin: 0;
 }
 
-/* --- Barre de progression --- */
+/* --- Barre de progression : un trait de surligneur sur une ligne du cahier --- */
 .su-progress {
   margin-bottom: 1.25rem;
 }
@@ -67,21 +70,37 @@
 .progress-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.4rem;
-  font-size: 0.9rem;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.progress-header strong {
+  font-family: var(--font-display);
+  color: var(--ink);
 }
 
 .progress-track {
-  height: 12px;
-  background: var(--border);
-  border-radius: 999px;
-  overflow: hidden;
+  position: relative;
+  height: 16px;
+}
+
+.progress-track::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  height: 1px;
+  background: var(--rule);
 }
 
 .progress-fill {
+  position: relative;
+  z-index: 1;
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--success));
-  border-radius: 999px;
+  background: var(--hl);
+  border-radius: 3px 9px 5px 2px; /* bords un peu irréguliers, comme un vrai feutre */
   transition: width 0.4s ease;
 }
 
@@ -109,24 +128,31 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--primary);
-  border-radius: 10px;
-  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--ink);
+  border-radius: 4px;
+  background: var(--sheet);
 }
 
 .task-item.done {
-  border-left-color: var(--success);
-  opacity: 0.8;
+  border-left-color: var(--green-pen);
 }
 
 .task-item.done h3 {
+  color: var(--pencil);
   text-decoration: line-through;
+  text-decoration-color: var(--green-pen);
+  text-decoration-thickness: 2px;
+}
+
+.task-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .task-info h3 {
   margin: 0 0 0.25rem;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }
 
 .task-desc {
@@ -144,21 +170,22 @@
   flex-wrap: wrap;
 }
 
-.badge {
-  padding: 0.15rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+/* Limité à la liste des tâches pour ne pas modifier les badges Bootstrap des autres pages */
+.task-meta .badge {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: none;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .badge-progress {
-  background: #fff4d6;
-  color: #9a6700;
+  color: var(--ink);
 }
 
 .badge-done {
-  background: #dcfce7;
-  color: #166534;
+  color: var(--green-pen);
 }
 
 .task-actions {

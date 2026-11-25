@@ -5,32 +5,24 @@ import ProgressBar from "../components/ProgressBar";
 import { loadTasks } from "../services/taskStorage";
 import "../styles/home.css";
 
-// Présentation des modules de l'application (rendus avec map + key).
+// Date du jour en toutes lettres, ex. "mercredi 25 novembre".
+const TODAY = new Date().toLocaleDateString("fr-FR", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+});
+
+// Ajoute un "s" quand il y a plusieurs éléments.
+function plural(n, word) {
+  return `${n} ${word}${n > 1 ? "s" : ""}`;
+}
+
+// Sommaire des modules de l'application (rendu avec map + key).
 const FEATURES = [
-  {
-    to: "/ressources",
-    icon: "📚",
-    title: "Ressources",
-    text: "Recherche des livres et ressources d'étude grâce à l'API Open Library.",
-  },
-  {
-    to: "/favoris",
-    icon: "⭐",
-    title: "Favoris",
-    text: "Garde tes ressources prioritaires pour les retrouver rapidement.",
-  },
-  {
-    to: "/revisions",
-    icon: "📝",
-    title: "Révisions",
-    text: "Planifie tes tâches de révision et suis ta progression.",
-  },
-  {
-    to: "/assistant",
-    icon: "🤖",
-    title: "Assistant IA",
-    text: "Pose tes questions et obtiens des explications claires.",
-  },
+  { to: "/ressources", title: "Ressources", text: "Cherche des livres et des cours dans Open Library." },
+  { to: "/favoris", title: "Favoris", text: "Retrouve les ressources que tu as gardées." },
+  { to: "/revisions", title: "Révisions", text: "Planifie tes révisions et coche celles qui sont faites." },
+  { to: "/assistant", title: "Assistant IA", text: "Pose une question de cours et reçois une explication." },
 ];
 
 // Page / : accueil et aperçu de l'activité (Module 5).
@@ -45,49 +37,76 @@ export default function Home({ nbFavoris }) {
   // Statistiques dérivées : calculées à partir des tâches, pas besoin de state.
   const done = tasks.filter((t) => t.statut === "terminée").length;
   const inProgress = tasks.length - done;
-  const percent = tasks.length === 0 ? 0 : Math.round((done / tasks.length) * 100);
-  const stats = { favorites: nbFavoris, inProgress, done };
+  const total = tasks.length;
+  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+  // Prochaine échéance : la tâche en cours dont la date limite est la plus proche.
+  const next = tasks
+    .filter((t) => t.statut !== "terminée")
+    .sort((a, b) => a.dateLimite.localeCompare(b.dateLimite))[0];
+
+  // Le titre de la page dit où en est l'étudiant, avec ses vraies données.
+  let headline;
+  let subtitle;
+  let action;
+  if (total === 0) {
+    headline = "Ton planning de révision est vide.";
+    subtitle = "Ajoute une première révision avec sa date limite : ta progression s'affichera ici.";
+    action = "Planifier une révision";
+  } else if (inProgress > 0) {
+    headline = `Il te reste ${plural(inProgress, "révision")} à faire.`;
+    const date = new Date(next.dateLimite + "T00:00").toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+    });
+    subtitle = `Prochaine échéance : « ${next.titre} », le ${date}.`;
+    action = "Voir mes révisions";
+  } else {
+    headline = "Toutes tes révisions sont terminées.";
+    subtitle = "Ajoute la prochaine quand tu veux, ta progression repartira de là.";
+    action = "Ajouter une révision";
+  }
 
   return (
     <div className="home">
       <section className="hero">
-        <h1>
-          Bienvenue sur <span className="brand">SkillUp</span>
-        </h1>
-        <p>
-          L'application qui t'aide à trouver des ressources d'étude, organiser tes révisions
-          et comprendre les notions difficiles grâce à un assistant IA.
-        </p>
+        <p className="hero-date">{TODAY}</p>
+        <h1>{headline}</h1>
+        <p className="hero-sub">{subtitle}</p>
+
+        {total > 0 && (
+          <div className="home-progress">
+            <ProgressBar
+              percent={percent}
+              label={`${done} sur ${plural(total, "révision")} terminée${done > 1 ? "s" : ""}`}
+            />
+          </div>
+        )}
+
         <div className="hero-actions">
-          <Link to="/ressources" className="btn btn-light btn-lg">Explorer les ressources</Link>
-          <Link to="/revisions" className="btn btn-outline-light btn-lg">Planifier mes révisions</Link>
+          <Link to="/revisions" className="btn btn-primary">{action}</Link>
+          <Link to="/ressources" className="btn btn-outline-primary">Chercher une ressource</Link>
         </div>
       </section>
 
-      <section>
-        <h2 className="section-title">Mon activité</h2>
-        <div className="stats-grid">
-          <StatCard icon="⭐" value={stats.favorites} label="Favoris" color="stat-yellow" />
-          <StatCard icon="⏳" value={stats.inProgress} label="Tâches en cours" color="stat-blue" />
-          <StatCard icon="✅" value={stats.done} label="Tâches terminées" color="stat-green" />
-          <StatCard icon="📈" value={`${percent}%`} label="Progression" color="stat-purple" />
-        </div>
-        <div className="panel home-progress">
-          <ProgressBar percent={percent} label="Progression globale des révisions" />
-        </div>
+      <section className="stats-grid" aria-label="Mon activité">
+        <StatCard value={nbFavoris} label={nbFavoris > 1 ? "ressources en favoris" : "ressource en favoris"} />
+        <StatCard value={inProgress} label={inProgress > 1 ? "révisions en cours" : "révision en cours"} />
+        <StatCard value={done} label={done > 1 ? "révisions terminées" : "révision terminée"} color="stat-done" />
       </section>
 
       <section>
-        <h2 className="section-title">Que peux-tu faire ?</h2>
-        <div className="features-grid">
+        <h2 className="section-title">Sommaire</h2>
+        <ul className="toc">
           {FEATURES.map((f) => (
-            <Link key={f.to} to={f.to} className="feature panel">
-              <span className="feature-icon" aria-hidden="true">{f.icon}</span>
-              <h3>{f.title}</h3>
-              <p>{f.text}</p>
-            </Link>
+            <li key={f.to}>
+              <Link to={f.to} className="toc-link">
+                <span className="toc-title">{f.title}</span>
+                <span className="toc-text">{f.text}</span>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
     </div>
   );

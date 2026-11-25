@@ -1,0 +1,312 @@
+/* ===== Thème SkillUp : "cahier Seyès" =====
+   Papier quadrillé, marge rouge, encre bleue et un seul accent fort :
+   le surligneur jaune, réservé à ce qui compte maintenant
+   (page active, progression, favoris, question posée à l'IA).
+
+   Ce fichier est chargé APRÈS Bootstrap : il remplace ses variables
+   (--bs-...) pour que tous les composants Bootstrap prennent le thème. */
+
+:root {
+  /* Palette */
+  --paper: #f6f7fb;      /* fond (blanc froid) */
+  --sheet: #ffffff;      /* feuilles posées dessus (formulaires, cartes) */
+  --ink: #1f3a93;        /* encre bleue : titres, liens, boutons */
+  --ink-dark: #162a6e;
+  --ink-tint: #e7ecf9;
+  --rule: #c9d1ee;       /* réglure Seyès, bordures */
+  --margin: #e04a5f;     /* trait de marge, erreurs */
+  --hl: #ffe14d;         /* surligneur */
+  --hl-dark: #f2cf1f;
+  --graphite: #24272f;   /* texte courant */
+  --pencil: #5c6170;     /* texte secondaire */
+  --green-pen: #2e7d4f;  /* tâches terminées */
+
+  /* Typographie */
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --step--1: 0.85rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.563rem;
+  --step-3: 1.953rem;
+  --step-4: clamp(2.2rem, 5vw, 3.3rem);
+
+  /* Grille Seyès : petite ligne tous les 8 px, ligne forte tous les 32 px */
+  --seyes-minor: rgba(31, 58, 147, 0.03);
+  --seyes-major: rgba(31, 58, 147, 0.075);
+
+  /* --- Variables Bootstrap remplacées --- */
+  --bs-body-font-family: var(--font-body);
+  --bs-body-font-size: var(--step-0);
+  --bs-body-line-height: 1.55;
+  --bs-body-color: var(--graphite);
+  --bs-body-color-rgb: 36, 39, 47;
+  --bs-body-bg: var(--paper);
+  --bs-body-bg-rgb: 246, 247, 251;
+  --bs-heading-color: var(--ink);
+  --bs-secondary-color: var(--pencil);
+  --bs-border-color: var(--rule);
+  --bs-border-radius: 6px;
+  --bs-border-radius-sm: 4px;
+  --bs-border-radius-lg: 8px;
+  --bs-link-color: var(--ink);
+  --bs-link-color-rgb: 31, 58, 147;
+  --bs-link-hover-color: var(--ink-dark);
+  --bs-link-hover-color-rgb: 22, 42, 110;
+  --bs-focus-ring-color: rgba(31, 58, 147, 0.3);
+
+  --bs-primary: var(--ink);
+  --bs-primary-rgb: 31, 58, 147;
+  --bs-secondary-rgb: 92, 97, 112;
+  --bs-warning: var(--hl);
+  --bs-warning-rgb: 255, 225, 77;
+  --bs-danger: var(--margin);
+  --bs-danger-rgb: 224, 74, 95;
+
+  --bs-info-text-emphasis: var(--ink);
+  --bs-info-bg-subtle: var(--ink-tint);
+  --bs-info-border-subtle: var(--rule);
+  --bs-danger-text-emphasis: #a5283b;
+  --bs-danger-bg-subtle: #fdecef;
+  --bs-danger-border-subtle: #f3c4cc;
+}
+
+/* ===== Fond : feuille Seyès ===== */
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--seyes-major) 1px, transparent 1px),
+    linear-gradient(var(--seyes-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--seyes-major) 1px, transparent 1px);
+  background-size: 100% 32px, 100% 8px, 32px 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* La page occupe toute la hauteur : la marge rouge descend jusqu'en bas */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+::selection {
+  background: var(--hl);
+  color: var(--graphite);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ===== Surligneur : trait jaune posé sous le texte ===== */
+.su-hl,
+.su-navbar .nav-link.active {
+  background-image: linear-gradient(
+    100deg,
+    transparent 0.15em,
+    var(--hl) 0.35em,
+    var(--hl) calc(100% - 0.35em),
+    transparent calc(100% - 0.15em)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 0.7em;
+  background-position: 0 85%;
+}
+
+/* ===== Contenu des pages : aligné à droite d'une marge rouge ===== */
+.su-page {
+  position: relative;
+  flex: 1;
+  padding-left: 3.25rem;
+}
+
+.su-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 1.5rem;
+  width: 2px;
+  background: var(--margin);
+  opacity: 0.55;
+}
+
+/* ===== Barre de navigation (composant Navbar de Lina) ===== */
+.su-navbar {
+  --bs-navbar-color: var(--pencil);
+  --bs-navbar-hover-color: var(--ink);
+  --bs-navbar-active-color: var(--graphite);
+  --bs-navbar-brand-color: var(--ink);
+  --bs-navbar-brand-hover-color: var(--ink);
+  --bs-navbar-toggler-border-color: var(--rule);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.su-navbar > .container {
+  padding-left: 3.25rem;
+}
+
+.su-navbar .navbar-brand {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.su-navbar .nav-link {
+  width: fit-content; /* le surligneur reste à la taille du texte, même dans le menu mobile */
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* ===== Boutons ===== */
+.btn {
+  --bs-btn-font-weight: 700;
+  --bs-btn-focus-box-shadow: 0 0 0 0.2rem rgba(31, 58, 147, 0.25);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--ink);
+  --bs-btn-border-color: var(--ink);
+  --bs-btn-hover-bg: var(--ink-dark);
+  --bs-btn-hover-border-color: var(--ink-dark);
+  --bs-btn-active-bg: var(--ink-dark);
+  --bs-btn-active-border-color: var(--ink-dark);
+  --bs-btn-disabled-bg: var(--ink);
+  --bs-btn-disabled-border-color: var(--ink);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--ink);
+  --bs-btn-bg: var(--sheet);
+  --bs-btn-border-color: var(--ink);
+  --bs-btn-hover-color: var(--ink);
+  --bs-btn-hover-bg: var(--ink-tint);
+  --bs-btn-hover-border-color: var(--ink);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--ink);
+  --bs-btn-active-border-color: var(--ink);
+}
+
+/* Favori ajouté = ressource surlignée */
+.btn-warning {
+  --bs-btn-color: var(--graphite);
+  --bs-btn-bg: var(--hl);
+  --bs-btn-border-color: var(--hl-dark);
+  --bs-btn-hover-color: var(--graphite);
+  --bs-btn-hover-bg: var(--hl-dark);
+  --bs-btn-hover-border-color: var(--hl-dark);
+  --bs-btn-active-color: var(--graphite);
+  --bs-btn-active-bg: var(--hl-dark);
+  --bs-btn-active-border-color: var(--hl-dark);
+}
+
+.btn-outline-warning {
+  --bs-btn-color: var(--graphite);
+  --bs-btn-bg: var(--sheet);
+  --bs-btn-border-color: var(--rule);
+  --bs-btn-hover-color: var(--graphite);
+  --bs-btn-hover-bg: var(--hl);
+  --bs-btn-hover-border-color: var(--hl-dark);
+  --bs-btn-active-color: var(--graphite);
+  --bs-btn-active-bg: var(--hl);
+  --bs-btn-active-border-color: var(--hl-dark);
+}
+
+.btn-danger,
+.btn-outline-danger {
+  --bs-btn-color: var(--margin);
+  --bs-btn-bg: var(--sheet);
+  --bs-btn-border-color: var(--rule);
+  --bs-btn-hover-color: #a5283b;
+  --bs-btn-hover-bg: #fdecef;
+  --bs-btn-hover-border-color: var(--margin);
+  --bs-btn-active-color: #a5283b;
+  --bs-btn-active-bg: #fdecef;
+  --bs-btn-active-border-color: var(--margin);
+}
+
+.btn-secondary {
+  --bs-btn-color: var(--ink);
+  --bs-btn-bg: var(--sheet);
+  --bs-btn-border-color: var(--rule);
+  --bs-btn-hover-color: var(--ink);
+  --bs-btn-hover-bg: var(--ink-tint);
+  --bs-btn-hover-border-color: var(--ink);
+}
+
+.btn-link {
+  --bs-btn-color: var(--ink);
+  --bs-btn-hover-color: var(--ink-dark);
+  font-weight: 700;
+}
+
+/* ===== Champs de saisie : ligne d'écriture ===== */
+.form-control,
+.form-select {
+  background-color: var(--sheet);
+  border-color: var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--rule);
+  border-bottom-color: var(--ink);
+  background-color: var(--ink-tint);
+  box-shadow: none;
+}
+
+/* ===== Cartes, alertes, badges ===== */
+.card {
+  --bs-card-bg: var(--sheet);
+  --bs-card-border-color: var(--rule);
+  --bs-card-border-radius: 6px;
+  --bs-card-inner-border-radius: 5px;
+}
+
+.alert {
+  --bs-alert-border-radius: 4px;
+  border-left-width: 3px;
+}
+
+.alert-danger {
+  border-left-color: var(--margin);
+}
+
+.alert-info {
+  border-left-color: var(--ink);
+}
+
+/* ===== Moins d'animations si le système le demande ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== Mobile : marge plus étroite ===== */
+@media (max-width: 720px) {
+  .su-page,
+  .su-navbar > .container {
+    padding-left: 2rem;
+  }
+  .su-page::before {
+    left: 0.9rem;
+    width: 1px;
+  }
+}

@@ -12,10 +12,10 @@ const LIENS = [
 
 function Navbar({ nbFavoris }) {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <nav className="navbar navbar-expand-lg sticky-top su-navbar">
       <div className="container">
         <Link className="navbar-brand fw-bold" to="/">
-          📚 SkillUp
+          SkillUp
         </Link>
 
         <button
