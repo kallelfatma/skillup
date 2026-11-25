@@ -14,7 +14,8 @@ function Navbar({ nbFavoris }) {
   return (
     <nav className="navbar navbar-expand-lg sticky-top su-navbar">
       <div className="container">
-        <Link className="navbar-brand fw-bold" to="/">
+        <Link className="navbar-brand" to="/">
+          <span className="brand-mark" aria-hidden="true" />
           SkillUp
         </Link>
 

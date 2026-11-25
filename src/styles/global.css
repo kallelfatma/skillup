@@ -1,47 +1,105 @@
-/* ===== Styles globaux SkillUp (modules 3, 4, 5) =====
-   Bootstrap fournit déjà les boutons (.btn), la grille et la Navbar,
-   et theme.css lui donne le style "cahier Seyès".
-   Ici on ajoute seulement ce que Bootstrap n'a pas, avec des noms
-   qui ne rentrent pas en conflit avec ses classes (.card, .btn, .progress...). */
+/* ===== Styles communs des modules 3, 4, 5 =====
+   Noms choisis pour ne pas entrer en conflit avec Bootstrap
+   (.panel au lieu de .card, .su-progress au lieu de .progress). */
 
-:root {
-  /* Raccourcis vers les couleurs du thème (theme.css) */
-  --primary: var(--ink);
-  --primary-light: var(--ink-tint);
-  --success: var(--green-pen);
-  --danger: var(--margin);
-  --surface: var(--sheet);
-  --text: var(--graphite);
-  --muted: var(--pencil);
-  --border: var(--rule);
+.su-page {
+  padding-block: 2.5rem 4rem !important;
 }
 
-/* En-tête de page (titre + sous-titre) */
+/* En-tête de page : titre + phrase qui dit à quoi sert la page */
 .page-header {
   margin-bottom: 2rem;
 }
 
 .page-header h1 {
   margin: 0 0 0.35rem;
-  font-size: var(--step-3);
+  font-size: var(--step-4);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .page-header p {
   margin: 0;
   max-width: 60ch;
   color: var(--muted);
+  font-size: 1.05rem;
 }
 
-/* Feuille blanche posée sur le cahier (équivalent d'une carte, sans conflit avec .card de Bootstrap) */
+/* Panneau blanc */
 .panel {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 1.75rem;
+}
+
+/* Barre de progression : piste grise, remplissage vert, bout jaune (marque-page) */
+.su-progress {
+  width: 100%;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.progress-header strong {
+  font-family: var(--font-display);
+  color: var(--ink);
+}
+
+.progress-track {
+  height: 10px;
+  border-radius: 999px;
+  background: #e8ebf0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--green);
+  box-shadow: inset -8px 0 0 var(--ribbon);
+  transition: width 0.5s ease;
+}
+
+/* Spinner (assistant) */
+.spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--green-tint);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: su-spin 0.8s linear infinite;
+}
+
+@keyframes su-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 600px) {
+  .su-page {
+    padding-block: 1.5rem 3rem !important;
+  }
+  .page-header h1 {
+    font-size: var(--step-3);
+  }
   .panel {
-    padding: 1.1rem;
+    padding: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

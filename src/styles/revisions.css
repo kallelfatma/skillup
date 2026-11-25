@@ -7,18 +7,25 @@
   align-items: start;
 }
 
-/* --- Formulaire --- */
+/* Le formulaire reste visible pendant qu'on fait défiler la liste */
+.task-form {
+  position: sticky;
+  top: 5.5rem;
+}
+
 .task-form h2 {
   margin: 0 0 1.25rem;
   font-size: var(--step-1);
 }
 
+/* ----- Champs ----- */
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   margin-bottom: 1rem;
   flex: 1;
+  min-width: 0;
 }
 
 .field-row {
@@ -27,99 +34,93 @@
 }
 
 .field label {
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 0.92rem;
 }
 
-/* Champs en "ligne d'écriture" : bordure du bas plus marquée */
 .field input,
 .field textarea,
 .field select {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--rule);
-  border-bottom: 2px solid var(--rule);
-  border-radius: 4px;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
   font: inherit;
-  background: var(--sheet);
-  color: var(--text);
+  background: var(--surface);
+  color: var(--ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .field input:focus,
 .field textarea:focus,
 .field select:focus {
   outline: none;
-  border-bottom-color: var(--ink);
-  background: var(--ink-tint);
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(15, 107, 79, 0.15);
 }
 
 .field .invalid {
-  border-bottom-color: var(--margin);
+  border-color: var(--danger);
 }
 
 .error {
+  margin: 0;
   color: var(--danger);
   font-size: 0.85rem;
-  margin: 0;
 }
 
-/* --- Barre de progression : un trait de surligneur sur une ligne du cahier --- */
-.su-progress {
+/* ----- Panneau des tâches ----- */
+.tasks-panel .su-progress {
+  margin-bottom: 1.5rem;
+}
+
+/* Filtres : contrôle segmenté */
+.filters {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.25rem;
   margin-bottom: 1.25rem;
+  border-radius: 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
 }
 
-.progress-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.35rem;
-  font-size: 0.95rem;
+.seg-btn {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
 
-.progress-header strong {
-  font-family: var(--font-display);
+.seg-btn:hover {
   color: var(--ink);
 }
 
-.progress-track {
-  position: relative;
-  height: 16px;
+.seg-btn.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(21, 35, 59, 0.12), 0 0 0 1px var(--line);
 }
 
-.progress-track::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 2px;
-  height: 1px;
-  background: var(--rule);
+.seg-count {
+  margin-left: 0.35rem;
+  color: var(--muted);
+  font-weight: 400;
 }
 
-.progress-fill {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  background: var(--hl);
-  border-radius: 3px 9px 5px 2px; /* bords un peu irréguliers, comme un vrai feutre */
-  transition: width 0.4s ease;
-}
-
-/* --- Filtres --- */
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-/* --- Liste des tâches --- */
+/* ----- Liste des tâches ----- */
 .task-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
 }
 
 .task-item {
@@ -127,22 +128,8 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--rule);
-  border-left: 3px solid var(--ink);
-  border-radius: 4px;
-  background: var(--sheet);
-}
-
-.task-item.done {
-  border-left-color: var(--green-pen);
-}
-
-.task-item.done h3 {
-  color: var(--pencil);
-  text-decoration: line-through;
-  text-decoration-color: var(--green-pen);
-  text-decoration-thickness: 2px;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
 }
 
 .task-info {
@@ -151,41 +138,48 @@
 }
 
 .task-info h3 {
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.2rem;
   font-size: 1.1rem;
 }
 
-.task-desc {
-  margin: 0 0 0.4rem;
+.task-item.done h3 {
   color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--green);
+  text-decoration-thickness: 2px;
+}
+
+.task-desc {
+  margin: 0 0 0.35rem;
+  color: var(--ink-soft);
 }
 
 .task-meta {
   margin: 0;
-  font-size: 0.85rem;
-  color: var(--muted);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
+  font-size: 0.88rem;
+  color: var(--muted);
 }
 
-/* Limité à la liste des tâches pour ne pas modifier les badges Bootstrap des autres pages */
-.task-meta .badge {
-  padding: 0.1rem 0.5rem;
-  border: 1px solid currentColor;
-  border-radius: 4px;
-  background: none;
+/* Statut : jaune = en cours, vert = terminée */
+.badge {
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .badge-progress {
-  color: var(--ink);
+  background: var(--ribbon-tint);
+  color: var(--ribbon-dark);
 }
 
 .badge-done {
-  color: var(--green-pen);
+  background: var(--green-tint);
+  color: var(--green);
 }
 
 .task-actions {
@@ -194,32 +188,35 @@
   flex-shrink: 0;
 }
 
+/* Liste vide : invitation à agir */
 .empty {
+  margin: 0;
+  padding: 2.5rem 1rem;
+  border-top: 1px solid var(--line);
   text-align: center;
   color: var(--muted);
-  padding: 2rem 0;
 }
 
-/* --- Responsive --- */
-@media (max-width: 800px) {
+/* ----- Responsive ----- */
+@media (max-width: 900px) {
   .revisions-layout {
     grid-template-columns: 1fr;
   }
-  .task-item {
-    flex-direction: column;
-    align-items: flex-start;
+  .task-form {
+    position: static;
   }
 }
 
-@media (max-width: 480px) {
-  .field-row {
+@media (max-width: 560px) {
+  .task-item {
     flex-direction: column;
-    gap: 0;
-  }
-  .task-actions {
-    width: 100%;
+    align-items: stretch;
   }
   .task-actions .btn {
     flex: 1;
+  }
+  .field-row {
+    flex-direction: column;
+    gap: 0;
   }
 }

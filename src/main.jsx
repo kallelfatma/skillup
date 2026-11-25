@@ -5,11 +5,11 @@ import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 // Polices installées avec npm (@fontsource) : elles marchent aussi sans internet
-import '@fontsource/bricolage-grotesque/700.css'
+import '@fontsource/bricolage-grotesque/600.css'
 import '@fontsource/bricolage-grotesque/800.css'
-import '@fontsource/atkinson-hyperlegible/400.css'
-import '@fontsource/atkinson-hyperlegible/700.css'
-// Thème "cahier Seyès" : remplace les couleurs et polices de Bootstrap
+import '@fontsource/instrument-sans/400.css'
+import '@fontsource/instrument-sans/600.css'
+// Thème SkillUp : adapte les couleurs, polices et formes de Bootstrap
 import './styles/theme.css'
 import './index.css'
 // Styles communs des modules 3, 4, 5 (Révisions, Assistant, Accueil)

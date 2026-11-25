@@ -31,7 +31,7 @@ function App() {
 
       <main className="container py-4 su-page">
         <Routes>
-          <Route path="/" element={<Home nbFavoris={favoris.length} />} />
+          <Route path="/" element={<Home favoris={favoris} nbFavoris={favoris.length} />} />
           <Route
             path="/ressources"
             element={<Ressources estFavori={estFavori} onToggleFavori={toggleFavori} />}

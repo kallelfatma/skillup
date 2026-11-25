@@ -24,7 +24,7 @@ export default function TaskItem({ task, onToggle, onDelete }) {
         <button className="btn btn-sm btn-outline-primary" onClick={() => onToggle(task.id)}>
           {isDone ? "Remettre en cours" : "Marquer terminée"}
         </button>
-        <button className="btn btn-sm btn-danger" onClick={() => onDelete(task.id)}>
+        <button className="btn btn-sm btn-outline-danger" onClick={() => onDelete(task.id)}>
           Supprimer
         </button>
       </div>

@@ -5,18 +5,21 @@ const FILTERS = [
   { value: "terminée", label: "Terminées" },
 ];
 
-// Boutons de filtrage. Le filtre actif est géré par la page parente.
+// Boutons de filtrage (contrôle segmenté). Le filtre actif est géré par la page parente.
 // Props : filter (valeur active), onChange(nouvelleValeur), counts (nombre par filtre)
 export default function TaskFilters({ filter, onChange, counts }) {
   return (
-    <div className="filters">
+    <div className="filters" role="group" aria-label="Filtrer les tâches">
       {FILTERS.map((f) => (
         <button
           key={f.value}
-          className={`btn btn-sm ${filter === f.value ? "btn-primary" : "btn-outline-primary"}`}
+          type="button"
+          className={`seg-btn ${filter === f.value ? "active" : ""}`}
+          aria-pressed={filter === f.value}
           onClick={() => onChange(f.value)}
         >
-          {f.label} ({counts[f.value]})
+          {f.label}
+          <span className="seg-count">{counts[f.value]}</span>
         </button>
       ))}
     </div>

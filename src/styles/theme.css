@@ -1,312 +1,260 @@
-/* ===== Thème SkillUp : "cahier Seyès" =====
-   Papier quadrillé, marge rouge, encre bleue et un seul accent fort :
-   le surligneur jaune, réservé à ce qui compte maintenant
-   (page active, progression, favoris, question posée à l'IA).
-
-   Ce fichier est chargé APRÈS Bootstrap : il remplace ses variables
-   (--bs-...) pour que tous les composants Bootstrap prennent le thème. */
+/* ===== Thème SkillUp =====
+   Une bibliothèque claire : papier gris très pâle, encre bleu nuit,
+   vert "bibliothèque" pour les actions, et jaune "marque-page" pour
+   tout ce qui est gardé (favoris) ou avancé (progression).
+   On modifie les variables de Bootstrap : les pages de Lina (catalogue,
+   favoris, détails) prennent automatiquement le même style. */
 
 :root {
-  /* Palette */
-  --paper: #f6f7fb;      /* fond (blanc froid) */
-  --sheet: #ffffff;      /* feuilles posées dessus (formulaires, cartes) */
-  --ink: #1f3a93;        /* encre bleue : titres, liens, boutons */
-  --ink-dark: #162a6e;
-  --ink-tint: #e7ecf9;
-  --rule: #c9d1ee;       /* réglure Seyès, bordures */
-  --margin: #e04a5f;     /* trait de marge, erreurs */
-  --hl: #ffe14d;         /* surligneur */
-  --hl-dark: #f2cf1f;
-  --graphite: #24272f;   /* texte courant */
-  --pencil: #5c6170;     /* texte secondaire */
-  --green-pen: #2e7d4f;  /* tâches terminées */
+  /* Couleurs */
+  --paper: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #15233b;
+  --ink-soft: #4a5568;
+  --muted: #6b7486;
+  --line: #e2e5eb;
+  --green: #0f6b4f;
+  --green-dark: #0a5340;
+  --green-tint: #e7f2ed;
+  --ribbon: #f2b33d;
+  --ribbon-dark: #9a6a0c;
+  --ribbon-tint: #fdf3de;
+  --danger: #b93a32;
 
-  /* Typographie */
-  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
-  --step--1: 0.85rem;
-  --step-0: 1.0625rem;
+  /* Typographie : échelle 1.25 (tierce majeure) */
+  --font-display: "Bricolage Grotesque", "Segoe UI", sans-serif;
+  --font-body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
   --step-1: 1.25rem;
   --step-2: 1.563rem;
   --step-3: 1.953rem;
-  --step-4: clamp(2.2rem, 5vw, 3.3rem);
+  --step-4: 2.441rem;
 
-  /* Grille Seyès : petite ligne tous les 8 px, ligne forte tous les 32 px */
-  --seyes-minor: rgba(31, 58, 147, 0.03);
-  --seyes-major: rgba(31, 58, 147, 0.075);
+  /* Formes : grand rayon pour les panneaux, petit pour les contrôles */
+  --radius-panel: 14px;
+  --radius-control: 8px;
 
-  /* --- Variables Bootstrap remplacées --- */
-  --bs-body-font-family: var(--font-body);
-  --bs-body-font-size: var(--step-0);
-  --bs-body-line-height: 1.55;
-  --bs-body-color: var(--graphite);
-  --bs-body-color-rgb: 36, 39, 47;
+  /* Variables Bootstrap remplacées */
   --bs-body-bg: var(--paper);
-  --bs-body-bg-rgb: 246, 247, 251;
+  --bs-body-color: var(--ink);
+  --bs-body-font-family: var(--font-body);
+  --bs-body-line-height: 1.6;
   --bs-heading-color: var(--ink);
-  --bs-secondary-color: var(--pencil);
-  --bs-border-color: var(--rule);
-  --bs-border-radius: 6px;
-  --bs-border-radius-sm: 4px;
-  --bs-border-radius-lg: 8px;
-  --bs-link-color: var(--ink);
-  --bs-link-color-rgb: 31, 58, 147;
-  --bs-link-hover-color: var(--ink-dark);
-  --bs-link-hover-color-rgb: 22, 42, 110;
-  --bs-focus-ring-color: rgba(31, 58, 147, 0.3);
-
-  --bs-primary: var(--ink);
-  --bs-primary-rgb: 31, 58, 147;
-  --bs-secondary-rgb: 92, 97, 112;
-  --bs-warning: var(--hl);
-  --bs-warning-rgb: 255, 225, 77;
-  --bs-danger: var(--margin);
-  --bs-danger-rgb: 224, 74, 95;
-
-  --bs-info-text-emphasis: var(--ink);
-  --bs-info-bg-subtle: var(--ink-tint);
-  --bs-info-border-subtle: var(--rule);
-  --bs-danger-text-emphasis: #a5283b;
-  --bs-danger-bg-subtle: #fdecef;
-  --bs-danger-border-subtle: #f3c4cc;
+  --bs-secondary-color: var(--muted);
+  --bs-border-color: var(--line);
+  --bs-border-radius: var(--radius-control);
+  --bs-primary: #0f6b4f;
+  --bs-primary-rgb: 15, 107, 79;
+  --bs-warning: #f2b33d;
+  --bs-warning-rgb: 242, 179, 61;
+  --bs-danger: #b93a32;
+  --bs-danger-rgb: 185, 58, 50;
+  --bs-link-color: #0f6b4f;
+  --bs-link-color-rgb: 15, 107, 79;
+  --bs-link-hover-color: #0a5340;
+  --bs-link-hover-color-rgb: 10, 83, 64;
 }
 
-/* ===== Fond : feuille Seyès ===== */
-body {
-  background-color: var(--paper);
-  background-image:
-    linear-gradient(var(--seyes-major) 1px, transparent 1px),
-    linear-gradient(var(--seyes-minor) 1px, transparent 1px),
-    linear-gradient(90deg, var(--seyes-major) 1px, transparent 1px);
-  background-size: 100% 32px, 100% 8px, 32px 100%;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* La page occupe toute la hauteur : la marge rouge descend jusqu'en bas */
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
+/* Titres : police d'affichage, serrée */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.015em;
-  line-height: 1.15;
+  color: var(--ink);
 }
 
 ::selection {
-  background: var(--hl);
-  color: var(--graphite);
+  background: var(--ribbon-tint);
 }
 
+/* Focus clavier visible partout */
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 3px solid rgba(15, 107, 79, 0.45);
   outline-offset: 2px;
 }
 
-/* ===== Surligneur : trait jaune posé sous le texte ===== */
-.su-hl,
-.su-navbar .nav-link.active {
-  background-image: linear-gradient(
-    100deg,
-    transparent 0.15em,
-    var(--hl) 0.35em,
-    var(--hl) calc(100% - 0.35em),
-    transparent calc(100% - 0.15em)
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 0.7em;
-  background-position: 0 85%;
-}
-
-/* ===== Contenu des pages : aligné à droite d'une marge rouge ===== */
-.su-page {
-  position: relative;
-  flex: 1;
-  padding-left: 3.25rem;
-}
-
-.su-page::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 1.5rem;
-  width: 2px;
-  background: var(--margin);
-  opacity: 0.55;
-}
-
-/* ===== Barre de navigation (composant Navbar de Lina) ===== */
-.su-navbar {
-  --bs-navbar-color: var(--pencil);
-  --bs-navbar-hover-color: var(--ink);
-  --bs-navbar-active-color: var(--graphite);
-  --bs-navbar-brand-color: var(--ink);
-  --bs-navbar-brand-hover-color: var(--ink);
-  --bs-navbar-toggler-border-color: var(--rule);
-  background: var(--paper);
-  border-bottom: 1px solid var(--rule);
-}
-
-.su-navbar > .container {
-  padding-left: 3.25rem;
-}
-
-.su-navbar .navbar-brand {
-  font-family: var(--font-display);
-  font-size: var(--step-2);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.su-navbar .nav-link {
-  width: fit-content; /* le surligneur reste à la taille du texte, même dans le menu mobile */
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-/* ===== Boutons ===== */
+/* ----- Boutons ----- */
 .btn {
-  --bs-btn-font-weight: 700;
-  --bs-btn-focus-box-shadow: 0 0 0 0.2rem rgba(31, 58, 147, 0.25);
+  --bs-btn-font-weight: 600;
+  --bs-btn-border-radius: var(--radius-control);
+  --bs-btn-padding-x: 1rem;
+  --bs-btn-focus-box-shadow: 0 0 0 3px rgba(15, 107, 79, 0.3);
+}
+
+.btn-lg {
+  --bs-btn-padding-x: 1.4rem;
+  --bs-btn-font-size: 1.05rem;
 }
 
 .btn-primary {
-  --bs-btn-bg: var(--ink);
-  --bs-btn-border-color: var(--ink);
-  --bs-btn-hover-bg: var(--ink-dark);
-  --bs-btn-hover-border-color: var(--ink-dark);
-  --bs-btn-active-bg: var(--ink-dark);
-  --bs-btn-active-border-color: var(--ink-dark);
-  --bs-btn-disabled-bg: var(--ink);
-  --bs-btn-disabled-border-color: var(--ink);
+  --bs-btn-bg: var(--green);
+  --bs-btn-border-color: var(--green);
+  --bs-btn-hover-bg: var(--green-dark);
+  --bs-btn-hover-border-color: var(--green-dark);
+  --bs-btn-active-bg: var(--green-dark);
+  --bs-btn-active-border-color: var(--green-dark);
+  --bs-btn-disabled-bg: var(--green);
+  --bs-btn-disabled-border-color: var(--green);
 }
 
 .btn-outline-primary {
-  --bs-btn-color: var(--ink);
-  --bs-btn-bg: var(--sheet);
-  --bs-btn-border-color: var(--ink);
-  --bs-btn-hover-color: var(--ink);
-  --bs-btn-hover-bg: var(--ink-tint);
-  --bs-btn-hover-border-color: var(--ink);
+  --bs-btn-color: var(--green);
+  --bs-btn-border-color: #b9d6ca;
+  --bs-btn-hover-color: var(--green-dark);
+  --bs-btn-hover-bg: var(--green-tint);
+  --bs-btn-hover-border-color: var(--green);
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: var(--ink);
-  --bs-btn-active-border-color: var(--ink);
+  --bs-btn-active-bg: var(--green);
+  --bs-btn-active-border-color: var(--green);
 }
 
-/* Favori ajouté = ressource surlignée */
+/* Bouton discret (actions secondaires) */
+.btn-outline-secondary,
+.btn-secondary {
+  --bs-btn-color: var(--ink-soft);
+  --bs-btn-bg: var(--surface);
+  --bs-btn-border-color: var(--line);
+  --bs-btn-hover-color: var(--ink);
+  --bs-btn-hover-bg: var(--paper);
+  --bs-btn-hover-border-color: #c9cfd9;
+}
+
+/* Favoris = marque-page jaune */
 .btn-warning {
-  --bs-btn-color: var(--graphite);
-  --bs-btn-bg: var(--hl);
-  --bs-btn-border-color: var(--hl-dark);
-  --bs-btn-hover-color: var(--graphite);
-  --bs-btn-hover-bg: var(--hl-dark);
-  --bs-btn-hover-border-color: var(--hl-dark);
-  --bs-btn-active-color: var(--graphite);
-  --bs-btn-active-bg: var(--hl-dark);
-  --bs-btn-active-border-color: var(--hl-dark);
+  --bs-btn-color: var(--ink);
+  --bs-btn-bg: var(--ribbon);
+  --bs-btn-border-color: var(--ribbon);
+  --bs-btn-hover-color: var(--ink);
+  --bs-btn-hover-bg: #e5a52b;
+  --bs-btn-hover-border-color: #e5a52b;
+  --bs-btn-active-color: var(--ink);
+  --bs-btn-active-bg: #e5a52b;
 }
 
 .btn-outline-warning {
-  --bs-btn-color: var(--graphite);
-  --bs-btn-bg: var(--sheet);
-  --bs-btn-border-color: var(--rule);
-  --bs-btn-hover-color: var(--graphite);
-  --bs-btn-hover-bg: var(--hl);
-  --bs-btn-hover-border-color: var(--hl-dark);
-  --bs-btn-active-color: var(--graphite);
-  --bs-btn-active-bg: var(--hl);
-  --bs-btn-active-border-color: var(--hl-dark);
-}
-
-.btn-danger,
-.btn-outline-danger {
-  --bs-btn-color: var(--margin);
-  --bs-btn-bg: var(--sheet);
-  --bs-btn-border-color: var(--rule);
-  --bs-btn-hover-color: #a5283b;
-  --bs-btn-hover-bg: #fdecef;
-  --bs-btn-hover-border-color: var(--margin);
-  --bs-btn-active-color: #a5283b;
-  --bs-btn-active-bg: #fdecef;
-  --bs-btn-active-border-color: var(--margin);
-}
-
-.btn-secondary {
-  --bs-btn-color: var(--ink);
-  --bs-btn-bg: var(--sheet);
-  --bs-btn-border-color: var(--rule);
+  --bs-btn-color: var(--ribbon-dark);
+  --bs-btn-border-color: #f0d494;
   --bs-btn-hover-color: var(--ink);
-  --bs-btn-hover-bg: var(--ink-tint);
-  --bs-btn-hover-border-color: var(--ink);
+  --bs-btn-hover-bg: var(--ribbon-tint);
+  --bs-btn-hover-border-color: var(--ribbon);
+  --bs-btn-active-color: var(--ink);
+  --bs-btn-active-bg: var(--ribbon);
+}
+
+.btn-outline-danger {
+  --bs-btn-color: var(--danger);
+  --bs-btn-border-color: #e8c4c1;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--danger);
+  --bs-btn-hover-border-color: var(--danger);
 }
 
 .btn-link {
-  --bs-btn-color: var(--ink);
-  --bs-btn-hover-color: var(--ink-dark);
-  font-weight: 700;
+  --bs-btn-color: var(--green);
+  --bs-btn-hover-color: var(--green-dark);
+  text-decoration: none;
 }
 
-/* ===== Champs de saisie : ligne d'écriture ===== */
+/* ----- Champs de formulaire ----- */
 .form-control,
 .form-select {
-  background-color: var(--sheet);
-  border-color: var(--rule);
-  border-bottom-width: 2px;
-  border-radius: 4px;
+  border-color: var(--line);
+  border-radius: var(--radius-control);
+  padding: 0.6rem 0.85rem;
+  background-color: var(--surface);
 }
 
 .form-control:focus,
 .form-select:focus {
-  border-color: var(--rule);
-  border-bottom-color: var(--ink);
-  background-color: var(--ink-tint);
-  box-shadow: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(15, 107, 79, 0.15);
 }
 
-/* ===== Cartes, alertes, badges ===== */
-.card {
-  --bs-card-bg: var(--sheet);
-  --bs-card-border-color: var(--rule);
-  --bs-card-border-radius: 6px;
-  --bs-card-inner-border-radius: 5px;
-}
-
+/* ----- Messages ----- */
 .alert {
-  --bs-alert-border-radius: 4px;
-  border-left-width: 3px;
-}
-
-.alert-danger {
-  border-left-color: var(--margin);
+  border-radius: var(--radius-control);
+  border-width: 0 0 0 3px;
 }
 
 .alert-info {
-  border-left-color: var(--ink);
+  --bs-alert-bg: var(--surface);
+  --bs-alert-color: var(--ink-soft);
+  --bs-alert-border-color: var(--green);
+  --bs-alert-link-color: var(--green);
 }
 
-/* ===== Moins d'animations si le système le demande ===== */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition-duration: 0.01ms !important;
-  }
+.alert-danger {
+  --bs-alert-bg: #fbefee;
+  --bs-alert-color: #7c2620;
+  --bs-alert-border-color: var(--danger);
 }
 
-/* ===== Mobile : marge plus étroite ===== */
-@media (max-width: 720px) {
-  .su-page,
-  .su-navbar > .container {
-    padding-left: 2rem;
+/* ----- Barre de navigation ----- */
+.su-navbar {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  padding-block: 0.7rem;
+}
+
+.su-navbar .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+/* Logo : un marque-page jaune à encoche */
+.brand-mark {
+  width: 14px;
+  height: 22px;
+  background: var(--ribbon);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 74%, 0 100%);
+}
+
+.su-navbar .nav-link {
+  position: relative;
+  color: var(--ink-soft);
+  font-weight: 600;
+  padding-inline: 0.85rem !important;
+}
+
+.su-navbar .nav-link:hover {
+  color: var(--ink);
+}
+
+/* Page active : texte encre + trait jaune dessous */
+.su-navbar .nav-link.active {
+  color: var(--ink);
+}
+
+.su-navbar .nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: -0.1rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--ribbon);
+}
+
+.su-navbar .badge {
+  font-weight: 700;
+  border-radius: 999px;
+}
+
+@media (max-width: 991.98px) {
+  .su-navbar .navbar-nav {
+    padding-top: 0.5rem;
   }
-  .su-page::before {
-    left: 0.9rem;
-    width: 1px;
+  .su-navbar .nav-link.active::after {
+    right: auto;
+    width: 1.5rem;
+    bottom: 0.2rem;
   }
 }

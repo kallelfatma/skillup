@@ -22,7 +22,7 @@ export default function AnswerBox({ loading, error, answer, question }) {
   if (!answer) {
     return (
       <div className="answer-box panel placeholder">
-        <p>La réponse de l'assistant s'affichera ici.</p>
+        <p>Pose ta question : la réponse de l'assistant s'affichera ici.</p>
       </div>
     );
   }

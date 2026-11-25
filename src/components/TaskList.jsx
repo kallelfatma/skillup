@@ -4,7 +4,7 @@ import TaskItem from "./TaskItem";
 // Les callbacks onToggle et onDelete sont simplement transmis à chaque TaskItem.
 export default function TaskList({ tasks, onToggle, onDelete }) {
   if (tasks.length === 0) {
-    return <p className="empty">Aucune tâche à afficher.</p>;
+    return <p className="empty">Aucune tâche ici. Ajoute une révision avec le formulaire.</p>;
   }
 
   return (
